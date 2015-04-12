@@ -1,0 +1,11 @@
+<h1>View2</h1>
+<hr>
+<h2>Navigazione:</h2>
+<ul>
+    <li ng-repeat="tab in tabs" ng-click="selected(tab)">{{ tab }}</li>
+</ul>
+<hr>
+<p>Lista dei percorsi definiti nel progetto corrente</p>
+<ul>
+    <li ng-repeat="path in pathList">{{ path }}</li>
+</ul>

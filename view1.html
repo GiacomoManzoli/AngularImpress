@@ -1,0 +1,11 @@
+<h1>View1</h1>
+<hr>
+<h2>Navigazione:</h2>
+<ul>
+    <li ng-repeat="tab in tabs" ng-click="selected(tab)">{{ tab }}</li>
+</ul>
+<hr>
+<h2>{{ currentProject }}</h2>
+
+<h3>Modifica il progetto corrente</h3>
+<button ng-click="change()">Cambia progetto</button>
