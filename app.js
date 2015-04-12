@@ -20,38 +20,39 @@ app.factory('navigationFactory',function(){
 
 
 //Factory per la gestione dei progetti
-app.factory('projectFactory',['$rootScope', function($rootScope){
-
+app.factory('projectFactory',function(){
+    console.log("projectFactory created");
     var factory={};
 
-    $rootScope.projects = ["progetto1","progetto2"];
-    $rootScope.currentProjectId = -1;
+    var projects = ["progetto1","progetto2"];
+    var currentProjectId = -1;
 
 
     factory.getProject = function(i){
-        return $rootScope.projects[i];
+        return projects[i];
     };
 
     factory.updateProject = function(i,p){
-        $rootScope.projects[i] = p;
+        projects[i] = p;
     };
 
     factory.getCurrentProject = function(){
-        console.log("Current project id "+$rootScope.currentProjectId);
-        return $rootScope.projects[$rootScope.currentProjectId];
+        console.log("Current project id "+currentProjectId);
+        return projects[currentProjectId];
     };
 
     factory.setCurrentProject = function(i){
-        $rootScope.currentProjectId = i;
+        currentProjectId = i;
         console.log("Current changed");
     };
     return factory;
-}]);
+});
 
 //Factory per la gestione dei path
-app.factory('pathFactory',['$rootScope','projectFactory',function($rootScope,pFactory){
+app.factory('pathFactory',['projectFactory',function(pFactory){
     var factory={};
-
+    console.log("pathFactory created");
+    var paths = [];
 
     /*
     * Simula il metodo che chiede al server i percorsi per un determinato progetto
@@ -67,9 +68,9 @@ app.factory('pathFactory',['$rootScope','projectFactory',function($rootScope,pFa
 
     factory.getPaths = function(){
         var current = pFactory.getCurrentProject();
-        $rootScope.paths = this.getPathsFromServer(current); //Li scarica e li salva nel model
+        paths = this.getPathsFromServer(current); //Li scarica e li salva nel model
 
-        return $rootScope.paths; //Ritorna un riferimento
+        return paths; //Ritorna un riferimento
 
     };
 
