@@ -1,0 +1,44 @@
+body {
+    font-family:'PT Sans', sans-serif;
+    min-height: 740px;
+    background: rgb(215, 215, 215);
+    height:100%;
+}
+
+h1{
+    font-size: 3em;
+}
+
+/* #impresshook{
+    pointer-events: auto;
+} */
+
+.step {
+    position: relative;
+    width: 900px;
+    padding: 40px;
+    margin: 20px auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+}
+.slide {
+    display: block;
+    width: 900px;
+    height: 700px;
+    padding: 40px 60px;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, .3);
+    color: rgb(102, 102, 102);
+    opacity: 0.3;
+    line-height: 4em;
+    -webkit-transition: opacity 0.3s ease;
+    pointer-events:none;
+}
+
+.step.active{
+    opacity: 1;
+    pointer-events:auto;
+}

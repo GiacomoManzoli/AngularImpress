@@ -1,0 +1,70 @@
+
+body {
+    font-family:'PT Sans', sans-serif;
+    min-height: 740px;
+    background: rgb(215, 215, 215);
+    height:100%;
+}
+
+h1{
+    font-size: 3em;
+}
+
+
+.step {
+    position: relative;
+    width: 900px;
+    padding: 40px;
+    margin: 20px auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    -ms-box-sizing: border-box;
+    -o-box-sizing: border-box;
+    box-sizing: border-box;
+}
+
+
+
+.slide {
+    display: block;
+    width: 700px;
+    height: 700px;
+    background-color: white;
+    border: 1px solid rgba(0, 0, 0, .3);
+    color: rgb(102, 102, 102);
+    opacity: 0.3;
+    line-height: 4em;
+    -webkit-transition: opacity 0.3s ease;
+}
+
+.step.active{
+    opacity: 1;
+}
+
+.slide{
+    text-align: center;
+    height: 500px;
+    width: 500px;
+    background-color: lightgray;
+
+
+}
+
+.slide img{
+    width: 100px;
+    height: 100px;
+}
+
+#menu{
+    position: fixed;
+    top: 20px;
+    left: 20px;
+
+    width: 150px;
+    height: 300px;
+
+    background-color: white;
+
+    overflow-y: scroll;
+    z-index: 9999;
+}

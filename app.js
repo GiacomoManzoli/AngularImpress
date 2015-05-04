@@ -1,139 +1,67 @@
-/**
- * Created by gmanzoli on 09/04/15.
- */
-var app = angular.module("app",['ngRoute']);
+var app = angular.module('diocane',['impressjs']);
 
-//Factory per la barra di navigazione
-app.factory('navigationFactory',function(){
-    var names = ["Projects", "Paths"];
-    var paths = ["view1","view2"];
+app.controller('mainCtrl',['$scope',function($scope){
+	function init(){
+		var data=[];
+		var cont = 0;
+		$scope.path=[];
+		for (var i = 1; i<=5;i++){
+			var obj={};
+			obj.title = "Slide "  + i;
+			obj.img="https://lh6.googleusercontent.com/-TlY7amsfzPs/T9ZgLXXK1cI/AAAAAAABK-c/Ki-inmeYNKk/w749-h794/AngularJS-Shield-large.png";
+			obj.content="One hot angel \n One cool devil \n Your mind on the fantasy \n Livin on the ecstasy \n Give it all, give it, \n Give it what you got \n Come on give it all a lot \n Pick it up move it \n Give it to the spot \n Your mind on a fantasy \n Livin on ecstasy";
+			obj.x = 1000;
+			obj.y = 1000 + 1000*i;
+			obj.z = 0;
+			obj.rotate = 0 + (90*((i-1)%4));
+			obj.id = "slide"+i;
 
-    var getPath = function(p){
-        var i = names.indexOf(p);
-        return paths[i];
-    };
-    return {
-        tabs: names,
-        getPath: getPath
-    };
+			data.push(obj);
+			$scope.path.push(obj);
+		}
+
+		$scope.offPathSlides = [];
+		var obj={};
+			obj.title = "Slide "  + i;
+			obj.img="https://lh6.googleusercontent.com/-TlY7amsfzPs/T9ZgLXXK1cI/AAAAAAABK-c/Ki-inmeYNKk/w749-h794/AngularJS-Shield-large.png";
+			obj.content="Sono off path";
+			obj.x = 1000;
+			obj.y = 1000 + 1000*i;
+			obj.z = 0;
+			obj.rotate = 0 + (90*((i-1)%4));
+			obj.id = "slide"+i;
+		$scope.offPathSlides.push(obj);
+
+		data.push(obj);
+		$scope.slides=data;
+	}
+
+	$scope.jump = function(slide){
+		$scope.$broadcast('goToId',slide);
+	};
+
+
+
+	init();
+
+	$scope.initImpress = function(){
+		$scope.$broadcast('initImpress');
+	}
+
+}]);
+
+
+app.directive('premiSlides', function(){
+	return {
+		restrict: 'E',
+		templateUrl: 'template/slides.html'
+	};
 });
 
-
-//Factory per la gestione dei progetti
-app.factory('projectFactory',function(){
-    console.log("projectFactory created");
-    var factory={};
-
-    var projects = ["progetto1","progetto2"];
-    var currentProjectId = -1;
-
-
-    factory.getProject = function(i){
-        return projects[i];
-    };
-
-    factory.updateProject = function(i,p){
-        projects[i] = p;
-    };
-
-    factory.getCurrentProject = function(){
-        console.log("Current project id "+currentProjectId);
-        return projects[currentProjectId];
-    };
-
-    factory.setCurrentProject = function(i){
-        currentProjectId = i;
-        console.log("Current changed");
-    };
-    return factory;
+app.directive('premiMenu',function(){
+		return {
+		restrict: 'E',
+		templateUrl: 'template/menu.html'
+	};
 });
 
-//Factory per la gestione dei path
-app.factory('pathFactory',['projectFactory',function(pFactory){
-    var factory={};
-    console.log("pathFactory created");
-    var paths = [];
-
-    /*
-    * Simula il metodo che chiede al server i percorsi per un determinato progetto
-    * */
-    factory.getPathsFromServer = function(p){
-
-        var paths = [];
-        paths["progetto1"] = ["Pippo","Pluto","Paperino"];
-        paths["progetto2"] = ["Qui","Quo","Qua"];
-
-        return paths[p];
-    };
-
-    factory.getPaths = function(){
-        var current = pFactory.getCurrentProject();
-        paths = this.getPathsFromServer(current); //Li scarica e li salva nel model
-
-        return paths; //Ritorna un riferimento
-
-    };
-
-    return factory;
-}]);
-
-
-/*
-* The $routeParams service allows you to retrieve the current set of route parameters.
-* The $location service allows you to retrive information about the current path. You can also
-* redirect to another path via $location.path('path/to/redirect')
-*
-* */
-
-app.controller('Rosso1',['$scope','$routeParams','$location','navigationFactory','projectFactory',function($scope,$routeParams,$location,navFactory,pFactory){
-
-    //Navigazione
-    $scope.tabs = navFactory.tabs;
-    $scope.selected = function(t){
-        var path = navFactory.getPath(t);
-        $location.path('/'+path);
-    };
-
-    //Project Data
-
-    pFactory.setCurrentProject(0); //Apro un progetto.
-
-    $scope.currentProject = pFactory.getCurrentProject(); //Recupero il riferimento al progetto corrente
-
-    $scope.change = function(){
-        pFactory.setCurrentProject(1);
-        $scope.currentProject = pFactory.getCurrentProject();
-    }
-
-}]);
-
-app.controller('Rosso2',['$scope','$routeParams','$location','navigationFactory','pathFactory',function($scope,$routeParams,$location,navFactory,pathFactory){
-
-    //Navigazione
-    $scope.tabs = navFactory.tabs;
-    $scope.selected = function(t){
-        var path = navFactory.getPath(t);
-        $location.path('/'+path);
-    };
-
-    //Path list
-    $scope.pathList = pathFactory.getPaths(); //Non c'è bisogno di specificare l'id del progetto
-
-
-}]);
-
-
-app.config(['$routeProvider',function($routeProvider) {
-    $routeProvider.
-        when('/view1/', {
-            templateUrl: 'view1.html',
-            controller: 'Rosso1'
-        }).
-        when('/view2', {
-            templateUrl: 'view2.html',
-            controller: 'Rosso2'
-        }).
-        otherwise({
-            redirectTo: '/view1'
-        });
-}]);

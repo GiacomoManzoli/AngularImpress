@@ -1,0 +1,10 @@
+<div id="menu">
+	{{ err }}
+	<button ng-click="initImpress()">Init</button>
+	<button ng-click="shake()">Shuffle!</button>
+	<ul>
+		<li ng-repeat="slide in slides">
+			<a href="#{{slide.id}}">{{ slide.title }}</a>
+		</li>
+	</ul>
+</div>
